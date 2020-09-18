@@ -32,6 +32,9 @@ for path in pathlist:
      if (path_in_str.endswith(".py")):
          continue
 
+     if (path_in_str.endswith(".meta")):
+         continue
+
      filename = os.path.basename(path_in_str)
      (basename, ext) = os.path.splitext(filename)
      outname = f"{basename}.webm"
@@ -45,7 +48,7 @@ for path in pathlist:
         infoString = subprocess.run(["ffprobe","-v","quiet","-print_format","json","-show_format","-show_streams",i], capture_output=True)
         info = json.loads(infoString.stdout)
         print(info)
-        if "width" in info["streams"][0] and int(info["streams"][0]["width"]) > 1920:
+        if "streams" in info and "width" in info["streams"][0] and int(info["streams"][0]["width"]) > 1920:
             subprocess.run(["ffmpeg","-i",f"{i}","-vf","scale=1920:-1","-c:v","libvpx","-b:v","500K","-c:a","libvorbis",f"{t}"])
         else:
             subprocess.run(["ffmpeg","-i",f"{i}","-c:v","libvpx","-b:v","500K","-c:a","libvorbis",f"{t}"])
