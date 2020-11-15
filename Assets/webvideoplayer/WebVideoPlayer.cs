@@ -16,6 +16,7 @@ public class WebVideoPlayer : MonoBehaviour
     public bool userInputReceived = false;
     private bool videoStarted = false;
     public bool shouldBeRunning = false;
+    public bool portrait = false;
     public void Start()
     {
 
@@ -33,7 +34,9 @@ public class WebVideoPlayer : MonoBehaviour
             EditorUtility.DisplayDialog("Material not found", "drag an drop a material on the WebVideoPlayer, or you won't see anything. This material you can put on objects to make them play the video.", "OK");
         }
 #endif
-        renderTexture = new RenderTexture(1280, 720, 16, RenderTextureFormat.ARGB32);
+        int w = portrait ? 1080 : 1920;
+        int h = portrait ? 1920 : 1080;
+        renderTexture = new RenderTexture(w, h, 16, RenderTextureFormat.ARGB32);
         
         // somehow setting material properties like this doesn't work for webGL, or at least gives issues.
         // therefore we are rather getting a material from the resources,

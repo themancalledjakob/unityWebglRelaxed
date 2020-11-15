@@ -14,6 +14,7 @@ public class VideoObject : MonoBehaviour
 
     // store local position, to calculate distance to player 
     public Vector3 localPosition;
+    public bool portrait = false;
 
     public void SetSpatial(Vector3 position, Vector3 scale, Quaternion rotation) {
         localPosition = position;
@@ -23,8 +24,9 @@ public class VideoObject : MonoBehaviour
         webVideoPlayer.audioSource.transform.position = position;
     }
 
-    public void Setup(string _url) {
+    public void Setup(string _url, bool _portrait) {
         url = _url;
+        portrait = _portrait;
         videoCanvas = GameObject.CreatePrimitive(PrimitiveType.Cube);
         // audioSource = videoCanvas.AddComponent<AudioSource>();
 
@@ -42,6 +44,9 @@ public class VideoObject : MonoBehaviour
         webVideoPlayer.audioSource.maxDistance = 12;
         webVideoPlayer.audioSource.rolloffMode = AudioRolloffMode.Linear;
         webVideoPlayer.url = url;
+        if (portrait) {
+            webVideoPlayer.portrait = true;
+        }
         webVideoPlayer.material = videoCanvas.GetComponent<Renderer>().material;
         webVideoPlayer.Start();
     }
@@ -172,9 +177,11 @@ public class Init : MonoBehaviour
             for (int i = 0; i < settings.videos.Length; i++) {
                 videos.Add(gameObject.AddComponent<VideoObject>());
 
+                string url = settings.videos[i%settings.videos.Length];
+                bool portrait = url.Contains("_PORTAIT");
                 // fun fact, with a simple modulo % we could populate any amount of video objects
                 // independent of the amount of videos we actually have.
-                videos[i].Setup(settings.videos[i%settings.videos.Length]);
+                videos[i].Setup(url,portrait);
 
                 // generate the arbitrary semi random grid coordinates per video object
                 float scaleFactor = 4f;
@@ -184,9 +191,10 @@ public class Init : MonoBehaviour
                 int gridLength = 6;
                 float x = grid + (i%gridLength)*grid + x_random;
                 float z = grid + Mathf.Round(i/gridLength)  * grid + z_random;
-                Vector3 position = new Vector3(x,scaleFactor * 0.8f,z);
-                float w = scaleFactor * 1.92f;
-                float h = scaleFactor * 1.08f;
+                float yShift = videos[i].portrait ? 1.4f : 0.8f;
+                Vector3 position = new Vector3(x,scaleFactor * yShift,z);
+                float w = videos[i].portrait ? scaleFactor * 1.08f : scaleFactor * 1.92f;
+                float h = videos[i].portrait ? scaleFactor * 1.92f : scaleFactor * 1.08f;
                 float d = 0.01f;
                 Vector3 localScale = new Vector3(d,h,w);
                 float randomRotation = Random.Range(-180f,180f);
