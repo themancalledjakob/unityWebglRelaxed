@@ -150,9 +150,9 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: bfda8ca5ff126f6df8cb5ade81d571e7, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.144
+  m_Volume: 0.05
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -394,6 +394,21 @@ PrefabInstance:
     - target: {fileID: 4448068258976056, guid: 2e62f5703e5f8d2488a5e1bc8433be41, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20724644957976244, guid: 2e62f5703e5f8d2488a5e1bc8433be41,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.39618525
+      objectReference: {fileID: 0}
+    - target: {fileID: 20724644957976244, guid: 2e62f5703e5f8d2488a5e1bc8433be41,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.5178302
+      objectReference: {fileID: 0}
+    - target: {fileID: 20724644957976244, guid: 2e62f5703e5f8d2488a5e1bc8433be41,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.698085
       objectReference: {fileID: 0}
     - target: {fileID: 54587624234064098, guid: 2e62f5703e5f8d2488a5e1bc8433be41,
         type: 3}

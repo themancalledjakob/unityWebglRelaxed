@@ -173,6 +173,8 @@ public class Init : MonoBehaviour
             settings = JsonUtility.FromJson<Settings>(getSettings.result);
             // tell ourselves that we did it
             settingsRead = true;
+            // shuffle the videos around
+            System.Array.Sort(settings.videos, RandomSort);
             // and then finally populate all our beautiful video objects
             for (int i = 0; i < settings.videos.Length; i++) {
                 videos.Add(gameObject.AddComponent<VideoObject>());
@@ -207,5 +209,12 @@ public class Init : MonoBehaviour
                 videos[i].SetSpatial(position,localScale,localRotation);
             }
         }
+    }
+
+    // this function just returns a number in the range -1 to +1
+    // and is used by Array.Sort to 'shuffle' the array
+    int RandomSort(string a, string b)
+    {
+        return Random.Range(-1, 2);
     }
 }

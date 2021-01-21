@@ -7,6 +7,7 @@ import subprocess
 import sys
 from pathlib import Path
 import argparse
+import re
 from multiprocessing import Pool
 
 parser = argparse.ArgumentParser(description='Doing things..')
@@ -34,6 +35,7 @@ def convertVideo(path):
     filename = os.path.basename(path)
     (basename, ext) = os.path.splitext(filename)
     basename = basename.replace(" ","_")
+    basename = re.sub('[^a-zA-Z0-9 \n\.]', '', basename)
     outname = f"{basename}.webm"
     tmpname = f"{basename}_tmp.webm"
     i = path
@@ -42,9 +44,8 @@ def convertVideo(path):
     my_file = Path(o)
     if not my_file.is_file():
         print(basename)
-        subprocess.run(["ffmpeg","-i",f"{i}","-c:v","libvpx","-b:v","500K","-c:a","libvorbis",f"{t}"])
+        subprocess.run(["ffmpeg","-i",f"{i}","-vf","scale=1280:-1","-c:v","libvpx","-b:v","200K","-c:a","libvorbis",f"{t}"])
         subprocess.run(["mv",f"{t}",f"{o}"])
-        subprocess.run(["rm",f"{i}"])
     
 toBeConverted = []
 for path_o in pathlist:
